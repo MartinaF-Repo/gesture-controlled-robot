@@ -173,19 +173,22 @@ Connects the arm and hand, enabling expressive pose control.
 
 ---
 
-# 🏆 Advanced Extension: ABB GoFa Integration
+# Advanced Extension: ABB GoFa Integration
 
 As an advanced demonstration, the custom 3‑finger hand was attached to an ABB GoFa industrial robot.
 
 ---
 
+## Gesture-controlled Demo Video
 
-# 📜 License
+https://github.com/user-attachments/assets/7cfdb598-449e-4499-a33b-7a44478776d9
+
+# License
 MIT License
 
 ---
 
-# 👤 Author
+# Author
 **Martina Filieri**  
 AI Engineer
 
