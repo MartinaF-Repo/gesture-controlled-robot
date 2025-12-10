@@ -47,35 +47,35 @@ RobotStudio → Mesh export → URDF/XACRO → Gazebo → ROS Control
 # 🖼 Screenshots Showcase
 
 ### **Custom 2-Link Robot**
-```
+
 ![Neutral Pose](docs/images/2-links1.png)
 ![Fist Pose](docs/images/2-links-fist.png)
-```
+
 
 ### **GoFa Extension**
-```
+
 ![GoFa Open Palm](docs/images/gofa_open_palm.png)
 ![GoFa Pointing](docs/images/gofa_pointing.png)
-```
+
 
 ### **Gesture Recognition**
-```
+
 ![Gesture Recognition](docs/images/gesture_recognition.png)
 ![Finger Logic](docs/images/finger_tips_and_dips.png)
-```
+
 
 ### **ROS Control**
-```
+
 ![Controller Class](docs/images/gesture_to_robot_class_2links.png)
 ![Publishers](docs/images/publishers_2link.png)
 ![Gesture Callback](docs/images/gesture_callback_gofa.png)
-```
+
 
 ### **URDF Integration**
-```
+
 ![Hand Attachment](docs/images/hand_attachment_gofa.png)
 ![GoFa Attach](docs/images/gofa_attachment.png)
-```
+
 
 ---
 
