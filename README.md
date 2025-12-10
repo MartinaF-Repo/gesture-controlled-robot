@@ -125,6 +125,24 @@ This snippet initializes the MediaPipe Hands model and specifies the landmark in
 FINGER_TIPS and FINGER_DIP store the exact MediaPipe landmark IDs for each finger, enabling the system to evaluate finger openness by comparing their positions. The camera is also configured for real-time processing using OpenCV.
 </em></p>
 
+### ROS gesture publisher node
+<p align="center">
+  <img src="docs/images/publisher_node.png" width="350">
+</p>
+
+<p align="center"><em>
+Initialization of the gesture recognition ROS node and publisher for <code>/gesture_topic</code>.
+</em></p>
+
+### Gesture publishing loop
+<p align="center">
+  <img src="docs/images/publisher_gesture.png" width="350">
+</p>
+
+<p align="center"><em>
+The gesture recognition loop publishes classified gestures to ROS while overlaying landmarks on the video feed.
+</em></p>
+
 ## **ROS Control**
 
 ### Gesture-to-Robot controller class
@@ -144,6 +162,15 @@ Initialization of the ROS control node, publishers, and gesture subscriber for r
 
 <p align="center"><em>
 Dictionary-based joint publisher mapping, enabling dynamic routing of gesture commands to each finger joint.
+</em></p>
+
+### Publishing joint commands
+<p align="center">
+  <img src="docs/images/gesture_to_robot_pub.png" width="350">
+</p>
+
+<p align="center"><em>
+Publishing arm and finger joint commands based on interpreted gesture values.
 </em></p>
 
 ### Gesture callback logic
@@ -206,9 +233,17 @@ The recognized gesture is published to:
 ### 4. Visual Feedback  
 OpenCV overlays detected gesture and hand landmarks on the webcam feed.
 
+### Gesture showcase
+<p align="center">
+  <img src="docs/images/open_palm_gesture.png" width="350">
+</p>
+<p align="center"><em>
+Real-time gesture detection using MediaPipe Hands, showing 21 tracked landmarks and OPEN_PALM classification.
+</em></p>
+
 ---
 
-# 🤖 Gesture → Robot Control Architecture (ROS)
+# Gesture → Robot Control Architecture (ROS)
 
 A dedicated ROS node (`gesture_to_robot.py`) interprets gestures into joint commands.
 
@@ -269,6 +304,24 @@ Connects the arm and hand, enabling expressive pose control.
 - `gazebo_ros_control` plugin  
 - Position controllers for each joint  
 - Realistic movement with PID parameters
+
+### Example controller configuration
+<p align="center">
+  <img src="docs/images/2link_controller.png" width="350">
+</p>
+
+<p align="center"><em>
+Position controllers for the 2-link arm and custom 3-finger hand, used by Gazebo and ROS control.
+</em></p>
+
+### Gazebo launch configuration (GoFa extension)
+<p align="center">
+  <img src="docs/images/gazebo_launch_gofa.png" width="350">
+</p>
+
+<p align="center"><em>
+Gazebo launch file for the GoFa extension: URDF spawning, controller loading, and initial joint setup.
+</em></p>
 
 ---
 
