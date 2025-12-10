@@ -7,7 +7,7 @@ An advanced extension of the project attaches the same custom finger hand to an 
 
 ---
 
-# 🚀 Project Overview
+# Project Overview
 
 The system allows you to control a robot arm and its fingers by simply showing hand gestures to a webcam.  
 Gesture recognition is performed using **OpenCV + MediaPipe**, and gestures are mapped to ROS topics that control each robot joint in the Gazebo simulation.
@@ -25,32 +25,31 @@ This project involved:
 
 Both the **2-link arm** and the **3-finger robotic hand** were **designed from scratch in RobotStudio**, including:
 
-### ✔ Mechanical structure  
+### Mechanical structure  
 - Joint layout  
 - Link proportions  
 - Wrist design  
 - Three fully articulated fingers (2 joints each)
 
-### ✔ Exported 3D assets  
+### Exported 3D assets  
 The models were exported as meshes for integration into the URDF robot description.
 
-### ✔ Kinematic design  
+### Kinematic design  
 - Defining rotational axes  
 - Parent-child link structure  
 - Ensuring stable IK/FK behavior in Gazebo
 
-### ✔ Integration pipeline  
+### Integration pipeline  
 RobotStudio → Mesh export → URDF/XACRO → Gazebo → ROS Control
 
 ---
 
-# 🖼 Screenshots Showcase
+# Screenshots Showcase
 
 ### **Custom 2-Link Robot**
 
-![Neutral Pose](docs/images/2-links1.png)
-![Fist Pose](docs/images/2-links-fist.png)
-
+<img src="docs/images/2-links1.png" width="400">
+<img src="docs/images/2-links-fist.png" width="400">
 
 ### **GoFa Extension**
 
@@ -181,6 +180,10 @@ As an advanced demonstration, the custom 3‑finger hand was attached to an ABB 
 
 ## Gesture-controlled Demo Video
 
+### Custom 2-link arm
+https://github.com/user-attachments/assets/1a98822c-5cdd-445d-8f07-4513d8f4a0a6
+
+### ABB GoFa + custom hand
 https://github.com/user-attachments/assets/7cfdb598-449e-4499-a33b-7a44478776d9
 
 # License
