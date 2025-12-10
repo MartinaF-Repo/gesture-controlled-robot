@@ -1,5 +1,4 @@
-# Gesture-Controlled Robot Arm and Hand (ROS + Gazebo + OpenCV + MediaPipe)
-
+# Gesture-Controlled Robot Arm and Hand
 This project implements a real-time gesture-controlled robotic system that combines **custom robot modeling**, **computer vision**, and **ROS-based control**.  
 Both the **2-link robotic arm** and the **3-finger robotic hand** were **fully designed and modeled by me in RobotStudio**, exported as meshes, and integrated into ROS + Gazebo through custom URDFs.
 
@@ -37,7 +36,6 @@ The models were exported as meshes for integration into the URDF robot descripti
 ### Kinematic design  
 - Defining rotational axes  
 - Parent-child link structure  
-- Ensuring stable IK/FK behavior in Gazebo
 
 ### Integration pipeline  
 RobotStudio → Mesh export → URDF/XACRO → Gazebo → ROS Control
@@ -46,34 +44,136 @@ RobotStudio → Mesh export → URDF/XACRO → Gazebo → ROS Control
 
 # Screenshots Showcase
 
-### **Custom 2-Link Robot**
+## **Custom 2-Link Robot Poses**
+### Neutral Pose
+<p align="center">
+  <img src="docs/images/2-links1.png" width="350">
+</p>
 
-<img src="docs/images/2-links1.png" width="400">
-<img src="docs/images/2-links-fist.png" width="400">
+<p align="center"><em>
+Custom 2-link robotic arm with my self-modelled 3-finger hand, imported into Gazebo via URDF.
+</em></p>
 
-### **GoFa Extension**
+### Fist gesture
+<p align="center">
+  <img src="docs/images/2-links-fist.png" width="350">
+</p>
 
-![GoFa Open Palm](docs/images/gofa_open_palm.png)
-![GoFa Pointing](docs/images/gofa_pointing.png)
+<p align="center"><em>
+The robot reacts to the detected "fist" gesture by closing all fingers and adjusting the wrist.
+</em></p>
+
+## URDF
+
+### Palm and wrist URDF
+<p align="center">
+  <img src="docs/images/hand_urdf_block1.png" width="350">
+</p>
+
+<p align="center"><em>
+URDF definitions for the palm link, including inertial values, visual geometry, and collision shapes.
+</em></p>
+
+### Wrist joint URDF
+<p align="center">
+  <img src="docs/images/hand_urdf_block2.png" width="350">
+</p>
+
+<p align="center"><em>
+Wrist joint definition connecting the hand assembly to the arm, with joint limits and control properties.
+</em></p>
 
 
-### **Gesture Recognition**
+## **GoFa Extension Poses**
 
-![Gesture Recognition](docs/images/gesture_recognition.png)
-![Finger Logic](docs/images/finger_tips_and_dips.png)
+### Open Palm
+<p align="center">
+  <img src="docs/images/gofa_open_palm.png" width="350">
+</p>
+
+<p align="center"><em>
+The custom finger hand attached to the ABB GoFa robot, responding to the “open palm” gesture.
+</em></p>
+
+### Pointing
+<p align="center">
+  <img src="docs/images/gofa_pointing.png" width="350">
+</p>
+
+<p align="center"><em>
+Gesture-driven “pointing” motion using the GoFa's 6-DOF arm and the articulated custom finger hand.
+</em></p>
+
+## **Gesture Recognition Code**
+
+<p align="center">
+  <img src="docs/images/docs/images/gesture_recognition.png" width="350">
+</p>
+
+<p align="center"><em>
+This snippet implements the core gesture classification algorithm.
+After extracting MediaPipe hand landmarks, the code determines whether each finger is open or closed by comparing fingertip coordinates to DIP joint coordinates. Based on the resulting binary pattern, it classifies gestures such as OPEN_PALM, FIST, VICTORY, and POINTING.
+This logic enables real-time interpretation of human hand poses.
+</em></p>
+
+<p align="center">
+  <img src="docs/images/docs/images/finger_tips_and_dips.png" width="350">
+</p>
+
+<p align="center"><em>
+This snippet initializes the MediaPipe Hands model and specifies the landmark indices used for finger-state detection.
+FINGER_TIPS and FINGER_DIP store the exact MediaPipe landmark IDs for each finger, enabling the system to evaluate finger openness by comparing their positions. The camera is also configured for real-time processing using OpenCV.
+</em></p>
+
+## **ROS Control**
+
+### Gesture-to-Robot controller class
+<p align="center">
+  <img src="docs/images/gesture_to_robot_class_2links.png" width="350">
+</p>
+
+<p align="center"><em>
+Initialization of the ROS control node, publishers, and gesture subscriber for real-time robot actuation.
+</em></p>
 
 
-### **ROS Control**
+### ROS publisher dictionary
+<p align="center">
+  <img src="docs/images/publishers_2link.png" width="350">
+</p>
 
-![Controller Class](docs/images/gesture_to_robot_class_2links.png)
-![Publishers](docs/images/publishers_2link.png)
-![Gesture Callback](docs/images/gesture_callback_gofa.png)
+<p align="center"><em>
+Dictionary-based joint publisher mapping, enabling dynamic routing of gesture commands to each finger joint.
+</em></p>
+
+### Gesture callback logic
+<p align="center">
+  <img src="docs/images/gesture_callback_gofa.png" width="350">
+</p>
+
+<p align="center"><em>
+Gesture mapping logic that sets joint targets based on recognized hand poses such as open palm, fist, or pointing.
+</em></p>
 
 
-### **URDF Integration**
+## **URDF Integration**
 
-![Hand Attachment](docs/images/hand_attachment_gofa.png)
-![GoFa Attach](docs/images/gofa_attachment.png)
+### GoFa hand mounting
+<p align="center">
+  <img src="docs/images/hand_attachment_gofa.png" width="350">
+</p>
+
+<p align="center"><em>
+URDF/Xacro showing the hand attachment to the GoFa robot via a custom wrist joint and link transform.
+</em></p>
+
+<p align="center">
+  <img src="docs/images/gofa_attachment.png" width="350">
+</p>
+
+<p align="center"><em>
+Part of the URDF that defines the parent–child relationship between the GoFa flange and the custom palm link.
+</em></p>
 
 
 ---
