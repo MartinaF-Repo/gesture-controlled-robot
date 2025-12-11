@@ -1,0 +1,17 @@
+<launch>
+  <!-- Start the gesture publisher node -->
+  <node name="gesture_publisher_node"
+        pkg="gesture_control"
+        type="gesture_recognition.py"
+        output="screen"
+        required="true">
+  </node>
+
+  <!-- Delay subscriber startup by 5 seconds to avoid overload -->
+  <node name="gesture_listener_node"
+        pkg="gesture_control"
+        type="gesture_listener.py"
+        output="screen"
+        launch-prefix="bash -c 'sleep 5; exec $0 $@'">
+  </node>
+</launch>

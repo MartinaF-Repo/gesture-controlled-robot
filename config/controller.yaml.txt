@@ -1,0 +1,44 @@
+joint1_position_controller:
+  type: position_controllers/JointPositionController
+  joint: joint1
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+joint2_position_controller:
+  type: position_controllers/JointPositionController
+  joint: joint2
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+wrist_position_controller:
+  type: position_controllers/JointPositionController
+  joint: wrist_joint
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+finger1_joint1_position_controller:
+  type: position_controllers/JointPositionController
+  joint: finger1_joint1
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+finger1_joint2_position_controller:
+  type: position_controllers/JointPositionController
+  joint: finger1_joint2
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+finger2_joint1_position_controller:
+  type: position_controllers/JointPositionController
+  joint: finger2_joint1
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+finger2_joint2_position_controller:
+  type: position_controllers/JointPositionController
+  joint: finger2_joint2
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+finger3_joint1_position_controller:
+  type: position_controllers/JointPositionController
+  joint: finger3_joint1
+  pid: {p: 100.0, i: 0.01, d: 1.0}
+
+finger3_joint2_position_controller:
+  type: position_controllers/JointPositionController
+  joint: finger3_joint2
+  pid: {p: 100.0, i: 0.01, d: 1.0}

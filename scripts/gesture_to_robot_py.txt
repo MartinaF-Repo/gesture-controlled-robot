@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+import rospy
+from std_msgs.msg import Float64, String
+
+class GestureToRobot:
+    def __init__(self):
+        rospy.init_node('gesture_to_robot_controller')
+
+        # Arm publishers
+        self.joint1_pub = rospy.Publisher('/joint1_position_controller/command', Float64, queue_size=10)
+        self.joint2_pub = rospy.Publisher('/joint2_position_controller/command', Float64, queue_size=10)
+        self.wrist_pub = rospy.Publisher('/wrist_position_controller/command',  Float64, queue_size=10)
+
+        # Finger publishers (all 6 finger joints)
+        self.finger_pubs = {
+            f'finger{i}_joint{j}': rospy.Publisher(f'/finger{i}_joint{j}_position_controller/command', Float64, queue_size=10)
+            for i in range(1, 4) for j in range(1, 3)
+        }
+
+        # Subscriber to gesture topic
+        rospy.Subscriber('/gesture_topic', String, self.gesture_callback)
+
+        rospy.loginfo("[GESTURE] Robot gesture control node started.")
+        rospy.loginfo("Waiting for Gazebo /clock to be published...")
+        while rospy.Time.now().to_sec() == 0:
+            rospy.sleep(0.1)
+        rospy.loginfo("Simulation time is now active.")
+
+        rospy.spin()
+
+    def gesture_callback(self, msg):
+        gesture = msg.data.lower()
+        rospy.loginfo(f"[GESTURE] Recognized: {gesture}")
+
+        # Default values
+        joint1, joint2 = 0.0, 0.0
+        wrist = 0.0
+        finger_cmds = {key: 0.0 for key in self.finger_pubs}
+
+        if gesture == "open_palm":
+            joint1, joint2 = 0.0, 0.0
+            wrist = -1.57
+            finger_cmds = {key: 0.0 for key in self.finger_pubs}
+        elif gesture == "fist":
+            joint1, joint2 = 0.0, 1.0
+            wrist = -1.57
+            finger_cmds = {key: 1.0 for key in self.finger_pubs}
+            finger_cmds["finger1_joint1"] = 0.5
+            finger_cmds["finger1_joint2"] = 1.57
+            finger_cmds["finger2_joint1"] = 0.5
+            finger_cmds["finger2_joint2"] = 1.57
+            finger_cmds["finger3_joint1"] = 0.5
+            finger_cmds["finger3_joint2"] = 1.57
+
+        elif gesture == "victory":
+            joint1, joint2 = 0.0, 0.0
+            wrist = -1.57
+            finger_cmds = {key: 1.0 for key in self.finger_pubs}
+            for key in finger_cmds:
+                finger_cmds[key] = 0.0
+            finger_cmds["finger3_joint1"] = 0.5
+            finger_cmds["finger3_joint2"] = 1.57
+        elif gesture == "pointing":
+            joint1, joint2 = 0.0, 1.0
+            wrist = -1.0
+            for key in finger_cmds:
+                finger_cmds[key] = 0.0
+            finger_cmds["finger2_joint1"] = 0.5
+            finger_cmds["finger2_joint2"] = 1.57
+            finger_cmds["finger3_joint1"] = 0.5
+            finger_cmds["finger3_joint2"] = 1.57
+        else:
+            rospy.logwarn(f"[GESTURE] Unrecognized gesture: {gesture}")
+            return
+
+        # Publish arm joints
+        self.joint1_pub.publish(Float64(joint1))
+        self.joint2_pub.publish(Float64(joint2))
+        rospy.loginfo(f"[ARM] joint1={joint1}, joint2={joint2}")
+
+        # Publish finger joints
+        for joint, val in finger_cmds.items():
+            self.finger_pubs[joint].publish(Float64(val))
+        rospy.loginfo(f"[FINGERS] Sent commands to all finger joints.")
+
+if __name__ == '__main__':
+    try:
+        GestureToRobot()
+    except rospy.ROSInterruptException:
+        pass

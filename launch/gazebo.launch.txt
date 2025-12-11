@@ -1,0 +1,57 @@
+<launch>
+  <!-- Start Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+  </include>
+
+  <!-- Load URDF -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find my_robot_description)/urdf/my_robot.urdf.xacro'" />
+
+  <!-- Publishers -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen"/>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen"/>
+
+  <!-- Spawn robot -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-param robot_description -urdf -model gesture_robot -x 0 -y 0 -z 0.1 -R 0 -P 0 -Y 0"
+        output="screen"/>
+
+  <!-- Load controller configuration -->
+  <rosparam file="$(find my_robot_description)/config/controller.yaml" command="load"/>
+
+  <!-- PID Gains -->
+  <rosparam param="/gazebo_ros_control/pid_gains/joint1">
+    p: 100.0
+    i: 0.01
+    d: 1.0
+  </rosparam>
+
+  <rosparam param="/gazebo_ros_control/pid_gains/joint2">
+    p: 100.0
+    i: 0.01
+    d: 1.0
+  </rosparam>
+
+  <rosparam param="/gazebo_ros_control/pid_gains/wrist_joint">
+    p: 100.0
+    i: 0.01
+    d: 1.0
+  </rosparam>
+
+<node name="controller_spawner" pkg="controller_manager" type="spawner"
+      args="joint1_position_controller joint2_position_controller wrist_position_controller
+            finger1_joint1_position_controller finger1_joint2_position_controller
+            finger2_joint1_position_controller finger2_joint2_position_controller
+            finger3_joint1_position_controller finger3_joint2_position_controller"
+      output="screen"/>
+
+
+  <!-- Initial Position -->
+  <node name="set_joint1" pkg="rostopic" type="rostopic"
+        args="pub -1 /joint1_position_controller/command std_msgs/Float64 'data: 0.0'" />
+  <node name="set_joint2" pkg="rostopic" type="rostopic"
+        args="pub -1 /joint2_position_controller/command std_msgs/Float64 'data: 1.0'" />
+  <node name="set_wrist" pkg="rostopic" type="rostopic"
+        args="pub -1 /wrist_position_controller/command std_msgs/Float64 'data: 0.0'" />
+</launch>
