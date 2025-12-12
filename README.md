@@ -171,7 +171,7 @@ Key features:
 - Webcam capture optimized for low-latency (320×240, frame skipping, time-based throttling)
 - MediaPipe Hands model for landmark detection (single-hand tracking)
 - Custom rule-based gesture classifier:
-  -OPEN_PALM
+  - OPEN_PALM
   - FIST
   - VICTORY
   - POINTING
